@@ -4,6 +4,7 @@ import random
 class Neuron(object):
     connections=[]
     network=None
+    sum=0
 
     #where x and y are initial position
 
@@ -21,6 +22,19 @@ class Neuron(object):
 
     def addConection(self, b):
         self.connections.append(b)
+
+
+    def fire(self):
+        for conn in self.connections:
+            conn.feedforward(self.sum)
+
+
+    def feedforward(self, input):
+        self.sum+=input
+        if sum > 1:
+            self.fire()
+            self.sum=0
+
 
 
 
@@ -57,11 +71,16 @@ class Network(object):
         c=Connection(obj,obj2,random.random())
         a.addConection(c)
 
+    def feedforward(self, input):
+        start=self.neuronlist[0]
+        start.feedforward(input)
+
 
 class Connection(object):
         neurona=None
         neuronb=None
         weight=None
+        sending=False
 
         def __init__(self, neuronfrom, neuronto, weight):
             self.weight=weight
@@ -73,3 +92,8 @@ class Connection(object):
             color=0xfff00
             #draw the line
             pygame.draw.line(screen, color,(self.neurona.x, self.neurona.y),(self.neuronb.x, self.neuronb.y))
+
+
+        def feedforward(self,sum):
+            #pass values like so
+            self.neuronb.feedforward(sum*self.weight)

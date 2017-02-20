@@ -1,5 +1,5 @@
 import pygame, sys
-from TestCaseClass import Neuron, Network, Connection
+from TestCaseClass import Neuron, Network
 
 #Setup
 width=640

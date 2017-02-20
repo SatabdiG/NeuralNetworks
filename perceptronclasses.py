@@ -1,5 +1,6 @@
 import random
 from datetime import datetime
+import pygame
 
 random.seed(datetime.now())
 
@@ -47,5 +48,47 @@ class Trainer(object):
         self.input.append(x)
         self.input.append(y)
         self.input.append(bias)
+
+
+class Walker(object):
+
+
+    def __init__(self, x, y, width, height):
+        self.posx=x
+        self.posy=y
+        self.width=width
+        self.height=height
+
+    def walk(self):
+        choice=random.randint(0,3)
+        print(choice)
+        if(choice == 0):
+            self.posx+=1
+        elif choice == 1:
+            self.posx-=1
+        elif choice == 2:
+            self.posy+=1
+        elif choice == 3:
+            self.posy-=1
+
+        self.posx=self.constrain(self.posx, 0, self.width-1)
+        self.posy=self.constrain(self.posy,0, self.height-1)
+
+
+    def constrain(self, xpos, lowlimit, uplimit ):
+        if xpos < lowlimit:
+            xpos=lowlimit
+            return xpos
+        elif xpos> uplimit:
+            xpos=uplimit
+            return xpos
+        else:
+            return xpos
+
+
+    def display(self, screen):
+        pygame.draw.ellipse(screen, 0xfffff, (self.posx, self.posy,16, 16))
+        pygame.display.flip()
+
 
 
